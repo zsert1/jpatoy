@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-EvaluationApplication<evaluation>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.soccerplay.evaluation.EvaluationApplication",
+      "projectName": "evaluation",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
