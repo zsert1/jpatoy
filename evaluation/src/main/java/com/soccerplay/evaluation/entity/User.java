@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User  implements UserDetails{
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
