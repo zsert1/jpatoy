@@ -4,8 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.soccerplay.evaluation.entity.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.UUID;
+import java.util.Optional;
 
-    User findByUsername(String username);
 
+public interface UserRepository extends JpaRepository<User, UUID>{
+    public Optional<User> findByEmail(String email);
+
+    public User findByUsername(String username);
 }
+
