@@ -30,7 +30,7 @@ dependencies {
     implementation("com.google.guava:guava:33.1.0-jre")
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
-
+implementation 'io.jsonwebtoken:jjwt:0.9.1'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
