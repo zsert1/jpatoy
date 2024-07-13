@@ -19,7 +19,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
              .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                .requestMatchers("/api/user/register", "/api/user/authenticate").permitAll()
+                .requestMatchers("/api/user/register", "/api/user/authenticate","api/data/scrape").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable());
