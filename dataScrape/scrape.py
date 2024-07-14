@@ -8,15 +8,21 @@ def get_players(url):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     }
     response = requests.get(url, headers=headers)
+    print("Status Code:", response.status_code)  # 상태 코드 출력
     soup = BeautifulSoup(response.text, "html.parser")
 
     players = []
-    for link in soup.select("a.spielprofil_tooltip"):
+    links = soup.select("a.spielprofil_tooltip")
+    if not links:
+        print("No links found, check the CSS selector.")
+    for link in links:
         player_url = "https://www.transfermarkt.com" + link["href"]
+        print("Player URL:", player_url)  # 각 선수 URL 출력
         player_data = scrape_player_data(player_url, headers)
         players.append(player_data)
         if len(players) >= 50:
             break
+
     return players
 
 
@@ -67,4 +73,5 @@ def send_data_to_api(players):
 if __name__ == "__main__":
     url = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query="
     players = get_players(url)
-    send_data_to_api(players)  # 스크랩한 데이터를 API로 전송
+
+    # send_data_to_api(players)  # 스크랩한 데이터를 API로 전송
