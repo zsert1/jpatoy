@@ -5,20 +5,18 @@ import json
 
 def get_players(url):
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     }
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, "html.parser")
 
     players = []
-    # 플레이어 목록 페이지에서 선수들의 프로필 링크를 추출
     for link in soup.select("a.spielprofil_tooltip"):
         player_url = "https://www.transfermarkt.com" + link["href"]
         player_data = scrape_player_data(player_url, headers)
         players.append(player_data)
-        if len(players) >= 50:  # 50명의 선수 데이터만 수집
+        if len(players) >= 50:
             break
-
     return players
 
 
@@ -30,11 +28,10 @@ def scrape_player_data(player_url, headers):
     position = soup.find("div", {"class": "dataValue"}).get_text(strip=True)
     team = soup.find("a", {"class": "vereinprofil_tooltip"}).get_text(strip=True)
 
-    # 이 부분은 실제 경기 데이터 구조에 따라 수정 필요
     game_records = []
-    table = soup.find("table", class_="items")  # 경기 기록 테이블
+    table = soup.find("table", class_="items")
     if table:
-        for row in table.find_all("tr")[1:]:  # 첫 번째 행은 헤더
+        for row in table.find_all("tr")[1:]:
             cols = row.find_all("td")
             if len(cols) > 5:
                 game_date = cols[1].text.strip()
@@ -56,12 +53,18 @@ def scrape_player_data(player_url, headers):
         "team": team,
         "gameRecords": game_records,
     }
-
     return player
 
 
+def send_data_to_api(players):
+    url = "http://localhost:8080/api/data/scrape"
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(url, json=players, headers=headers)  # 데이터 전송
+    print("Status Code:", response.status_code)
+    print("Response:", response.json())  # API 응답 출력
+
+
 if __name__ == "__main__":
-    url = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query="  # 선수 목록 페이지 URL
+    url = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query="
     players = get_players(url)
-    # 이 데이터를 JSON 파일로 저장하거나 바로 API로 전송
-    print(json.dumps(players, indent=4))
+    send_data_to_api(players)  # 스크랩한 데이터를 API로 전송
