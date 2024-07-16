@@ -26,52 +26,54 @@ export const Login = () => {
 
   return (
     <div className="login-container">
-      <h1>Login</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={loginSchema}
-        onSubmit={handleLogin}
-      >
-        {({ isSubmitting }) => (
-          <Form className="login-form">
-            <div className="form-group">
-              <Field
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="input-field"
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="error-message"
-              />
-            </div>
+      <div className="overlay">
+        <h1>Login</h1>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={loginSchema}
+          onSubmit={handleLogin}
+        >
+          {({ isSubmitting }) => (
+            <Form className="login-form">
+              <div className="form-group">
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  className="input-field"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="error-message"
+                />
+              </div>
 
-            <div className="form-group">
-              <Field
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="input-field"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="error-message"
-              />
-            </div>
+              <div className="form-group">
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="input-field"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="error-message"
+                />
+              </div>
 
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              Login
-            </button>
-          </Form>
-        )}
-      </Formik>
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isSubmitting}
+              >
+                Login
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,7 @@
-// Signup.tsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "../css/Signup.css";
+import "../css/Signup.css"; // 스타일 시트 임포트
 
 interface SignupValues {
   username: string;
@@ -26,71 +25,74 @@ const signupSchema = Yup.object().shape({
 
 const Signup = () => {
   const handleSignup = (values: SignupValues) => {
+    // API call to signup the user
     console.log(values);
   };
 
   return (
     <div className="signup-container">
-      <h1>Sign Up</h1>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={signupSchema}
-        onSubmit={handleSignup}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <div className="form-group">
-              <Field
-                type="text"
-                name="username"
-                placeholder="Username"
-                className="input-field"
-              />
-              <ErrorMessage
-                name="username"
-                component="div"
-                className="error-message"
-              />
-            </div>
+      <div className="overlay">
+        <h1>Sign Up</h1>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={signupSchema}
+          onSubmit={handleSignup}
+        >
+          {({ isSubmitting }) => (
+            <Form className="signup-form">
+              <div className="form-group">
+                <Field
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  className="input-field"
+                />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="error-message"
+                />
+              </div>
 
-            <div className="form-group">
-              <Field
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="input-field"
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="error-message"
-              />
-            </div>
+              <div className="form-group">
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  className="input-field"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="error-message"
+                />
+              </div>
 
-            <div className="form-group">
-              <Field
-                type="password"
-                name="password"
-                placeholder="Password"
-                className="input-field"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="error-message"
-              />
-            </div>
+              <div className="form-group">
+                <Field
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="input-field"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="error-message"
+                />
+              </div>
 
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={isSubmitting}
-            >
-              Sign Up
-            </button>
-          </Form>
-        )}
-      </Formik>
+              <button
+                type="submit"
+                className="submit-button"
+                disabled={isSubmitting}
+              >
+                Sign Up
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };

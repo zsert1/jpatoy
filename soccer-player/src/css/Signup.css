@@ -1,17 +1,28 @@
-/* Signup.css */
 .signup-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: url("../../public/images/singup.webp") no-repeat center center
+    fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  position: relative;
 }
 
-.signup-container h1 {
-  text-align: center;
-  color: #333;
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.signup-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 300px;
 }
 
 .form-group {
@@ -20,10 +31,10 @@
 
 .input-field {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* include padding and border in element's width */
+  box-sizing: border-box;
 }
 
 .error-message {

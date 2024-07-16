@@ -1,19 +1,24 @@
 .login-container {
+  background: url("../../public/images/login.webp") no-repeat center center
+    fixed;
+  background-size: cover;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f4f4f4;
+  color: white;
+  text-align: center;
+  position: relative;
 }
 
-.login-container h1 {
-  margin-bottom: 2rem;
-  color: #333;
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 10px;
 }
 
 .login-form {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
