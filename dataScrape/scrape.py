@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+import re
 
 
 def get_players(url):
@@ -8,58 +9,34 @@ def get_players(url):
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     }
     response = requests.get(url, headers=headers)
-    print("Status Code:", response.status_code)  # 상태 코드 출력
     soup = BeautifulSoup(response.text, "html.parser")
+    rows = soup.find_all("tr", class_=["odd", "even"])
 
     players = []
-    links = soup.select("a.spielprofil_tooltip")
-    if not links:
-        print("No links found, check the CSS selector.")
-    for link in links:
-        player_url = "https://www.transfermarkt.com" + link["href"]
-        print("Player URL:", player_url)  # 각 선수 URL 출력
-        player_data = scrape_player_data(player_url, headers)
+    for index, row in enumerate(rows):
+        player = row.find_all("td")[::-1]
+        rank = index + 1
+        name = player[11].find("a").text.strip()
+        position = player[10].text.strip()
+        age = re.findall(r"\d+", player[8].text.strip())[0]
+        try:
+            club = player[7].find("img")["alt"]
+        except TypeError:
+            club = "for 2 clubs"
+        matches = player[6].find("a").text.strip()
+        goals = player[0].find("a").text.strip()
+        player_data = {
+            "rank": rank,
+            "name": name,
+            "position": position,
+            "age": age,
+            "club": club,
+            "matches": matches,
+            "goals": goals,
+        }
         players.append(player_data)
-        if len(players) >= 50:
-            break
 
     return players
-
-
-def scrape_player_data(player_url, headers):
-    response = requests.get(player_url, headers=headers)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    name = soup.find("h1", {"itemprop": "name"}).get_text(strip=True)
-    position = soup.find("div", {"class": "dataValue"}).get_text(strip=True)
-    team = soup.find("a", {"class": "vereinprofil_tooltip"}).get_text(strip=True)
-
-    game_records = []
-    table = soup.find("table", class_="items")
-    if table:
-        for row in table.find_all("tr")[1:]:
-            cols = row.find_all("td")
-            if len(cols) > 5:
-                game_date = cols[1].text.strip()
-                opponent = cols[4].text.strip()
-                goals = cols[6].text.strip()
-                assists = cols[7].text.strip()
-                game_records.append(
-                    {
-                        "gameDate": game_date,
-                        "opponent": opponent,
-                        "goals": int(goals if goals else 0),
-                        "assists": int(assists if assists else 0),
-                    }
-                )
-
-    player = {
-        "name": name,
-        "position": position,
-        "team": team,
-        "gameRecords": game_records,
-    }
-    return player
 
 
 def send_data_to_api(players):
@@ -71,7 +48,8 @@ def send_data_to_api(players):
 
 
 if __name__ == "__main__":
-    url = "https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query="
+    url = "https://www.transfermarkt.com/premier-league/torschuetzenliste/wettbewerb/GB1/saison_id/2023/altersklasse/alle/detailpos/alle/plus/1"
     players = get_players(url)
+    print(players)
 
     # send_data_to_api(players)  # 스크랩한 데이터를 API로 전송
