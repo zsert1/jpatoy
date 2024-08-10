@@ -24,8 +24,8 @@ public class Comment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "game_record_id")
-    private GameRecord gameRecord;
+    @JoinColumn(name = "player_id")
+    private Player player;
 
     private String username;
     private String content;

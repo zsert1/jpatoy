@@ -26,16 +26,16 @@ def get_players(url):
         matches = player[6].find("a").text.strip()
         goals = player[0].find("a").text.strip()
         player_data = {
-            "rank": rank,
+            "playerRank": int(rank),
             "name": name,
             "position": position,
-            "age": age,
+            "age": int(age),
             "club": club,
-            "matches": matches,
-            "goals": goals,
+            "goals": int(goals),
+            "matches": int(matches),
         }
-        players.append(player_data)
 
+        players.append(player_data)
     return players
 
 
@@ -44,12 +44,11 @@ def send_data_to_api(players):
     headers = {"Content-Type": "application/json"}
     response = requests.post(url, json=players, headers=headers)  # 데이터 전송
     print("Status Code:", response.status_code)
-    print("Response:", response.json())  # API 응답 출력
+    # print("Response:", response.json())  # API 응답 출력
 
 
 if __name__ == "__main__":
     url = "https://www.transfermarkt.com/premier-league/torschuetzenliste/wettbewerb/GB1/saison_id/2023/altersklasse/alle/detailpos/alle/plus/1"
     players = get_players(url)
-    print(players)
-
-    # send_data_to_api(players)  # 스크랩한 데이터를 API로 전송
+    # print(players)
+    send_data_to_api(players)

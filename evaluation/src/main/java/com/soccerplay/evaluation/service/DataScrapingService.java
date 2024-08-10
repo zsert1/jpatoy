@@ -2,9 +2,7 @@ package com.soccerplay.evaluation.service;
 
 import org.springframework.stereotype.Service;
 
-import com.soccerplay.evaluation.entity.GameRecord;
 import com.soccerplay.evaluation.entity.Player;
-import com.soccerplay.evaluation.repository.GameRecordRepository;
 import com.soccerplay.evaluation.repository.PlayerRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,20 +16,15 @@ public class DataScrapingService {
     
 
   
-    private final  GameRecordRepository gameRecordRepository;
     
     private final PlayerRepository playerRepository;
 
-    public void scrapeAndSaveData(List<Player> players, List<GameRecord> gameRecords) {
+    public void scrapeAndSaveData(List<Player> players) {
+        System.out.println(players);
         for (Player player : players) {
-            Player existingPlayer = playerRepository.findByName(player.getName());
-            if (existingPlayer == null) {
-                playerRepository.save(player);
-            }
-        }
+               playerRepository.save(player);
 
-        for (GameRecord gameRecord : gameRecords) {
-            gameRecordRepository.save(gameRecord);
+          
         }
     }
 

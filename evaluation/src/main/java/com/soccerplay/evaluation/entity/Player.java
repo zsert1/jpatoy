@@ -1,13 +1,10 @@
 package com.soccerplay.evaluation.entity;
 
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,8 +23,11 @@ public class Player {
 
     private String name;
     private String position;
-    private String team;
+    private String club;
+    private int playerRank;
+    private int goals;
+    private int matches;
+    private int age;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL)
-    private List<GameRecord> gameRecords;
+
 }
